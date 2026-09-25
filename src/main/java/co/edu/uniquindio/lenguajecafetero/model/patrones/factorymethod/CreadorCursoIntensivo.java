@@ -1,10 +1,10 @@
 package co.edu.uniquindio.lenguajecafetero.model.patrones.factorymethod;
 
 import co.edu.uniquindio.lenguajecafetero.model.Curso;
-import co.edu.uniquindio.lenguajecafetero.model.CursoRegular;
+import co.edu.uniquindio.lenguajecafetero.model.CursoIntensivo;
 import co.edu.uniquindio.lenguajecafetero.model.Idioma;
 
-public class CreadorCursoRegular extends CreadorDeCursos {
+public class CreadorCursoIntensivo extends CreadorDeCursos {
     private final String codigo;
     private final String nombre;
     private final Idioma idioma;
@@ -12,8 +12,8 @@ public class CreadorCursoRegular extends CreadorDeCursos {
     private final double valorMensual;
     private final int duracionMeses;
 
-    public CreadorCursoRegular(String codigo, String nombre, Idioma idioma, String descripcion,
-                               double valorMensual, int duracionMeses) {
+    public CreadorCursoIntensivo(String codigo, String nombre, Idioma idioma, String descripcion,
+                                 double valorMensual, int duracionMeses) {
         this.codigo = codigo;
         this.nombre = nombre;
         this.idioma = idioma;
@@ -24,6 +24,6 @@ public class CreadorCursoRegular extends CreadorDeCursos {
 
     @Override
     public Curso crearCurso() {
-        return new CursoRegular(codigo, nombre, idioma, descripcion, valorMensual, duracionMeses);
+        return new CursoIntensivo(codigo, nombre, idioma, descripcion, valorMensual, duracionMeses);
     }
 }

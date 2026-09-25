@@ -1,16 +1,20 @@
 package co.edu.uniquindio.lenguajecafetero.model;
 
+import java.time.LocalDate;
+
 public class Estudiante extends Persona {
     private String documentoIdentidad;
     private int edad;
-    private String nivelActual;
+    private LocalDate fechaNacimiento;
+    private NivelIdioma nivel;
 
     public Estudiante(String nombre, String direccion, String telefono, String correo,
-                      String documentoIdentidad, int edad, String nivelActual) {
+                      String documentoIdentidad, int edad, LocalDate fechaNacimiento, NivelIdioma nivel) {
         super(nombre, direccion, telefono, correo);
         this.documentoIdentidad = documentoIdentidad;
         this.edad = edad;
-        this.nivelActual = nivelActual;
+        this.fechaNacimiento = fechaNacimiento;
+        this.nivel = nivel;
     }
 
     @Override
@@ -34,11 +38,19 @@ public class Estudiante extends Persona {
         this.edad = edad;
     }
 
-    public String getNivelActual() {
-        return nivelActual;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setNivelActual(String nivelActual) {
-        this.nivelActual = nivelActual;
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public NivelIdioma getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(NivelIdioma nivel) {
+        this.nivel = nivel;
     }
 }

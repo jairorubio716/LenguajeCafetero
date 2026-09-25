@@ -8,20 +8,20 @@ import co.edu.uniquindio.lenguajecafetero.model.TipoServicio;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FabricaBeneficiosRegular implements FabricaBeneficios {
+public class FabricaBeneficiosIntensivo implements FabricaBeneficios {
     @Override
     public List<Beneficio> crearBeneficios() {
         List<Beneficio> beneficios = new ArrayList<>();
+        beneficios.add(new Beneficio(TipoBeneficio.PLATAFORMA_VIRTUAL,
+                "Acceso a plataforma virtual", "Material en linea disponible 24/7"));
         beneficios.add(new Beneficio(TipoBeneficio.MATERIAL_DIDACTICO,
-                "Material didactico", "Guia de estudio y ejercicios impresos"));
-        beneficios.add(new Beneficio(TipoBeneficio.CLUBES_CONVERSACION,
-                "Clubes de conversacion", "Encuentros presenciales de practica oral"));
+                "Material didactico intensivo", "Ejercicios y guias de profundizacion"));
         return beneficios;
     }
 
     @Override
     public ServicioAdicional crearServicio() {
-        return new ServicioAdicional(TipoServicio.TALLERES_CONVERSACION, "S-REG-01",
-                "Talleres de conversacion", "Talleres presenciales de conversacion", 40000, true);
+        return new ServicioAdicional(TipoServicio.TUTORIA_REFUERZO, "S-INT-01",
+                "Tutoria de refuerzo", "Clases de refuerzo con el profesor", 50000, true);
     }
 }

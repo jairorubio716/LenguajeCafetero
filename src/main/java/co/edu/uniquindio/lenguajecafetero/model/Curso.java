@@ -6,21 +6,30 @@ import java.util.List;
 public abstract class Curso implements CursoPrototipo {
     private String codigo;
     private String nombre;
-    private double precioBase;
+    private Idioma idioma;
+    private String descripcion;
+    private double valorMensual;
     private int duracionMeses;
     private List<Beneficio> beneficios;
+    private EstadoCurso estado;
 
-    public Curso(String codigo, String nombre, double precioBase, int duracionMeses) {
+    public Curso(String codigo, String nombre, Idioma idioma, String descripcion,
+                 double valorMensual, int duracionMeses) {
         this.codigo = codigo;
         this.nombre = nombre;
-        this.precioBase = precioBase;
+        this.idioma = idioma;
+        this.descripcion = descripcion;
+        this.valorMensual = valorMensual;
         this.duracionMeses = duracionMeses;
         this.beneficios = new ArrayList<>();
+        this.estado = EstadoCurso.ACTIVO;
     }
 
     public Curso(Curso curso) {
-        this(curso.codigo, curso.nombre, curso.precioBase, curso.duracionMeses);
+        this(curso.codigo, curso.nombre, curso.idioma, curso.descripcion,
+                curso.valorMensual, curso.duracionMeses);
         this.beneficios = new ArrayList<>(curso.beneficios);
+        this.estado = curso.estado;
     }
 
     public abstract double calcularValor();
@@ -45,12 +54,28 @@ public abstract class Curso implements CursoPrototipo {
         this.nombre = nombre;
     }
 
-    public double getPrecioBase() {
-        return precioBase;
+    public Idioma getIdioma() {
+        return idioma;
     }
 
-    public void setPrecioBase(double precioBase) {
-        this.precioBase = precioBase;
+    public void setIdioma(Idioma idioma) {
+        this.idioma = idioma;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public double getValorMensual() {
+        return valorMensual;
+    }
+
+    public void setValorMensual(double valorMensual) {
+        this.valorMensual = valorMensual;
     }
 
     public int getDuracionMeses() {
@@ -63,5 +88,13 @@ public abstract class Curso implements CursoPrototipo {
 
     public List<Beneficio> getBeneficios() {
         return beneficios;
+    }
+
+    public EstadoCurso getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoCurso estado) {
+        this.estado = estado;
     }
 }

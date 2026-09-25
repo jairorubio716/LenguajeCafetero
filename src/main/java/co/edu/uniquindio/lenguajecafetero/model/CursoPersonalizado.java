@@ -4,12 +4,13 @@ public class CursoPersonalizado extends Curso {
     private static final double VALOR_POR_SESION = 20000.0;
 
     private int sesionesPorMes;
-    private String nivelReferencia;
+    private NivelIdioma nivelReferencia;
     private String objetivosEstudiante;
 
-    public CursoPersonalizado(String codigo, String nombre, double precioBase, int duracionMeses,
-                              int sesionesPorMes, String nivelReferencia, String objetivosEstudiante) {
-        super(codigo, nombre, precioBase, duracionMeses);
+    public CursoPersonalizado(String codigo, String nombre, Idioma idioma, String descripcion,
+                              double valorMensual, int duracionMeses,
+                              int sesionesPorMes, NivelIdioma nivelReferencia, String objetivosEstudiante) {
+        super(codigo, nombre, idioma, descripcion, valorMensual, duracionMeses);
         this.sesionesPorMes = sesionesPorMes;
         this.nivelReferencia = nivelReferencia;
         this.objetivosEstudiante = objetivosEstudiante;
@@ -24,8 +25,8 @@ public class CursoPersonalizado extends Curso {
 
     @Override
     public double calcularValor() {
-        double valorMensual = getPrecioBase() + (sesionesPorMes * VALOR_POR_SESION);
-        return valorMensual * getDuracionMeses();
+        double valorMensualCurso = getValorMensual() + (sesionesPorMes * VALOR_POR_SESION);
+        return valorMensualCurso * getDuracionMeses();
     }
 
     @Override
@@ -41,11 +42,11 @@ public class CursoPersonalizado extends Curso {
         this.sesionesPorMes = sesionesPorMes;
     }
 
-    public String getNivelReferencia() {
+    public NivelIdioma getNivelReferencia() {
         return nivelReferencia;
     }
 
-    public void setNivelReferencia(String nivelReferencia) {
+    public void setNivelReferencia(NivelIdioma nivelReferencia) {
         this.nivelReferencia = nivelReferencia;
     }
 
