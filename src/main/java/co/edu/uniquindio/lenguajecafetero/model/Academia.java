@@ -1,5 +1,7 @@
 package co.edu.uniquindio.lenguajecafetero.model;
 
+import co.edu.uniquindio.lenguajecafetero.model.patrones.builder.MatriculaBuilder;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +72,18 @@ public class Academia {
 
     public Matricula crearMatricula(Estudiante estudiante, Curso curso, int duracionContratada,
                                     double descuentoAplicado, List<ServicioAdicional> serviciosIncluidos) {
-        String numero = "M-" + (matriculas.size() + 1);
-        Matricula matricula = new Matricula(numero, LocalDate.now(), estudiante, curso,
-                duracionContratada, descuentoAplicado, serviciosIncluidos);
+        MatriculaBuilder builder = new MatriculaBuilder()
+                .conEstudiante(estudiante)
+                .conCurso(curso)
+                .conDuracion(duracionContratada)
+                .aplicarDescuento(descuentoAplicado);
+        if (serviciosIncluidos != null) {
+            for (ServicioAdicional servicio : serviciosIncluidos) {
+                builder.agregarServicio(servicio);
+            }
+        }
+        Matricula matricula = builder.build();
+        matricula.setNumero("M-" + (matriculas.size() + 1));
         matriculas.add(matricula);
         return matricula;
     }
