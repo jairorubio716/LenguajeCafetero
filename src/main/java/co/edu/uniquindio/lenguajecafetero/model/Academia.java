@@ -89,15 +89,19 @@ public class Academia {
     }
 
     public void asignarProfesor(Estudiante estudiante, Curso curso, Profesor profesor) {
+        if (!(curso instanceof CursoPersonalizado)) {
+            throw new IllegalArgumentException("Los profesores se asignan a estudiantes matriculados en cursos personalizados.");
+        }
         Asignacion asignacion = new Asignacion(LocalDate.now(), estudiante, curso, profesor);
         asignaciones.add(asignacion);
     }
 
-    public void solicitarServicio(Estudiante estudiante, ServicioAdicional servicio) {
+    public void solicitarServicio(Matricula matricula, ServicioAdicional servicio) {
         if (!servicio.isDisponible()) {
             throw new IllegalStateException("El servicio " + servicio.getNombre() + " no esta disponible.");
         }
-        ServicioUtilizado servicioUtilizado = new ServicioUtilizado(LocalDate.now(), estudiante, servicio);
+        matricula.agregarServicioIncluido(servicio);
+        ServicioUtilizado servicioUtilizado = new ServicioUtilizado(LocalDate.now(), matricula, servicio);
         serviciosUtilizados.add(servicioUtilizado);
     }
 

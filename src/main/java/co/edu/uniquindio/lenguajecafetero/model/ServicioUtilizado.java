@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public class ServicioUtilizado {
     private LocalDate fecha;
-    private Estudiante estudiante;
+    private Matricula matricula;
     private ServicioAdicional servicio;
 
-    public ServicioUtilizado(LocalDate fecha, Estudiante estudiante, ServicioAdicional servicio) {
+    public ServicioUtilizado(LocalDate fecha, Matricula matricula, ServicioAdicional servicio) {
         this.fecha = fecha;
-        this.estudiante = estudiante;
+        this.matricula = matricula;
         this.servicio = servicio;
     }
 
@@ -21,12 +21,12 @@ public class ServicioUtilizado {
         this.fecha = fecha;
     }
 
-    public Estudiante getEstudiante() {
-        return estudiante;
+    public Matricula getMatricula() {
+        return matricula;
     }
 
-    public void setEstudiante(Estudiante estudiante) {
-        this.estudiante = estudiante;
+    public void setMatricula(Matricula matricula) {
+        this.matricula = matricula;
     }
 
     public ServicioAdicional getServicio() {

@@ -5,16 +5,14 @@ import java.time.LocalDate;
 public class Estudiante extends Persona {
     private String documentoIdentidad;
     private int edad;
-    private LocalDate fechaNacimiento;
-    private NivelIdioma nivel;
+    private LocalDate fechaRegistro;
 
     public Estudiante(String nombre, String direccion, String telefono, String correo,
-                      String documentoIdentidad, int edad, LocalDate fechaNacimiento, NivelIdioma nivel) {
+                      String documentoIdentidad, int edad, LocalDate fechaRegistro) {
         super(nombre, direccion, telefono, correo);
         this.documentoIdentidad = documentoIdentidad;
         this.edad = edad;
-        this.fechaNacimiento = fechaNacimiento;
-        this.nivel = nivel;
+        this.fechaRegistro = fechaRegistro;
     }
 
     @Override
@@ -38,19 +36,11 @@ public class Estudiante extends Persona {
         this.edad = edad;
     }
 
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
+    public LocalDate getFechaRegistro() {
+        return fechaRegistro;
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public NivelIdioma getNivel() {
-        return nivel;
-    }
-
-    public void setNivel(NivelIdioma nivel) {
-        this.nivel = nivel;
+    public void setFechaRegistro(LocalDate fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 }
