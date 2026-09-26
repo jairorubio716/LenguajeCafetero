@@ -1,5 +1,11 @@
 package co.edu.uniquindio.lenguajecafetero.model;
 
+import co.edu.uniquindio.lenguajecafetero.exception.AsignacionInvalidaException;
+import co.edu.uniquindio.lenguajecafetero.exception.CursoNoDisponibleException;
+import co.edu.uniquindio.lenguajecafetero.exception.DatoInvalidoException;
+import co.edu.uniquindio.lenguajecafetero.exception.EstudianteNoEncontradoException;
+import co.edu.uniquindio.lenguajecafetero.exception.MatriculaInvalidaException;
+import co.edu.uniquindio.lenguajecafetero.exception.ServicioNoDisponibleException;
 import co.edu.uniquindio.lenguajecafetero.model.patrones.builder.MatriculaBuilder;
 
 import java.time.LocalDate;
@@ -71,7 +77,30 @@ public class Academia {
     }
 
     public Matricula crearMatricula(Estudiante estudiante, Curso curso, int duracionContratada,
-                                    double descuentoAplicado, List<ServicioAdicional> serviciosIncluidos) {
+                                    double descuentoAplicado, List<ServicioAdicional> serviciosIncluidos)
+            throws MatriculaInvalidaException, CursoNoDisponibleException, DatoInvalidoException,
+            ServicioNoDisponibleException {
+        if (estudiante == null || curso == null) {
+            throw new MatriculaInvalidaException("La matricula requiere estudiante y curso.");
+        }
+        if (curso.getEstado() != EstadoCurso.ACTIVO) {
+            throw new CursoNoDisponibleException(
+                    "El curso " + curso.getNombre() + " no esta disponible. Estado: " + curso.getEstado());
+        }
+        if (duracionContratada <= 0) {
+            throw new DatoInvalidoException("La duracion contratada debe ser mayor a cero.");
+        }
+        if (descuentoAplicado < 0 || descuentoAplicado > 1) {
+            throw new DatoInvalidoException("El descuento debe estar entre 0 y 1.");
+        }
+        if (serviciosIncluidos != null) {
+            for (ServicioAdicional servicio : serviciosIncluidos) {
+                if (!servicio.isDisponible()) {
+                    throw new ServicioNoDisponibleException(
+                            "El servicio " + servicio.getNombre() + " no esta disponible.");
+                }
+            }
+        }
         MatriculaBuilder builder = new MatriculaBuilder()
                 .conEstudiante(estudiante)
                 .conCurso(curso)
@@ -88,17 +117,21 @@ public class Academia {
         return matricula;
     }
 
-    public void asignarProfesor(Estudiante estudiante, Curso curso, Profesor profesor) {
+    public void asignarProfesor(Estudiante estudiante, Curso curso, Profesor profesor)
+            throws AsignacionInvalidaException {
         if (!(curso instanceof CursoPersonalizado)) {
-            throw new IllegalArgumentException("Los profesores se asignan a estudiantes matriculados en cursos personalizados.");
+            throw new AsignacionInvalidaException(
+                    "Los profesores se asignan a estudiantes matriculados en cursos personalizados.");
         }
         Asignacion asignacion = new Asignacion(LocalDate.now(), estudiante, curso, profesor);
         asignaciones.add(asignacion);
     }
 
-    public void solicitarServicio(Matricula matricula, ServicioAdicional servicio) {
+    public void solicitarServicio(Matricula matricula, ServicioAdicional servicio)
+            throws ServicioNoDisponibleException {
         if (!servicio.isDisponible()) {
-            throw new IllegalStateException("El servicio " + servicio.getNombre() + " no esta disponible.");
+            throw new ServicioNoDisponibleException(
+                    "El servicio " + servicio.getNombre() + " no esta disponible.");
         }
         matricula.agregarServicioIncluido(servicio);
         ServicioUtilizado servicioUtilizado = new ServicioUtilizado(LocalDate.now(), matricula, servicio);
@@ -117,13 +150,14 @@ public class Academia {
         return total;
     }
 
-    public Estudiante buscarEstudiante(String documentoIdentidad) {
+    public Estudiante buscarEstudiante(String documentoIdentidad) throws EstudianteNoEncontradoException {
         for (Estudiante estudiante : estudiantes) {
             if (estudiante.getDocumentoIdentidad().equals(documentoIdentidad)) {
                 return estudiante;
             }
         }
-        return null;
+        throw new EstudianteNoEncontradoException(
+                "No se encontro estudiante con documento: " + documentoIdentidad);
     }
 
     public String getNombreComercial() {

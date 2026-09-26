@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.MainController">
+    <center>
+        <TabPane tabClosingPolicy="UNAVAILABLE">
+            <Tab text="Estudiantes">
+                <fx:include source="estudiantes-view.fxml"/>
+            </Tab>
+            <Tab text="Profesores">
+                <fx:include source="profesores-view.fxml"/>
+            </Tab>
+            <Tab text="Cursos">
+                <fx:include source="cursos-view.fxml"/>
+            </Tab>
+            <Tab text="Matriculas">
+                <fx:include source="matriculas-view.fxml"/>
+            </Tab>
+            <Tab text="Asignacion">
+                <fx:include source="asignacion-view.fxml"/>
+            </Tab>
+            <Tab text="Servicios">
+                <fx:include source="servicios-view.fxml"/>
+            </Tab>
+            <Tab text="Reportes">
+                <fx:include source="reportes-view.fxml"/>
+            </Tab>
+        </TabPane>
+    </center>
+</BorderPane>

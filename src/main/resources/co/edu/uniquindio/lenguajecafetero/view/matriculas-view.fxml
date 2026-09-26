@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.lenguajecafetero.controller.MatriculasController">
+    <padding>
+        <Insets top="10" right="10" bottom="10" left="10"/>
+    </padding>
+    <HBox spacing="8">
+        <Label text="Crear matricula"/>
+        <Button text="Refrescar listas" onAction="#onRefrescar"/>
+    </HBox>
+    <GridPane hgap="8" vgap="8">
+        <Label text="Estudiante:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <ComboBox fx:id="cmbEstudiante" prefWidth="280" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Curso:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <ComboBox fx:id="cmbCurso" prefWidth="280" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Duracion (meses):" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="txtDuracion" text="3" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Descuento (0-1):" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="txtDescuento" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+        <Label text="Servicios adicionales:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <ScrollPane prefHeight="80" prefWidth="280" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <VBox fx:id="boxServicios" spacing="4"/>
+        </ScrollPane>
+    </GridPane>
+    <Button text="Crear matricula" onAction="#onCrearMatricula"/>
+    <TableView fx:id="tablaMatriculas" prefHeight="250">
+        <columns>
+            <TableColumn fx:id="colNumero" text="Numero" prefWidth="80"/>
+            <TableColumn fx:id="colEstudiante" text="Estudiante" prefWidth="150"/>
+            <TableColumn fx:id="colCurso" text="Curso" prefWidth="180"/>
+            <TableColumn fx:id="colDuracion" text="Duracion" prefWidth="80"/>
+            <TableColumn fx:id="colValorFinal" text="Valor final" prefWidth="120"/>
+        </columns>
+    </TableView>
+</VBox>

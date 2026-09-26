@@ -1,5 +1,6 @@
 package co.edu.uniquindio.lenguajecafetero.model.patrones.builder;
 
+import co.edu.uniquindio.lenguajecafetero.exception.MatriculaInvalidaException;
 import co.edu.uniquindio.lenguajecafetero.model.Curso;
 import co.edu.uniquindio.lenguajecafetero.model.Estudiante;
 import co.edu.uniquindio.lenguajecafetero.model.Matricula;
@@ -55,9 +56,9 @@ public class MatriculaBuilder {
         return this;
     }
 
-    public Matricula build() {
+    public Matricula build() throws MatriculaInvalidaException {
         if (estudiante == null || curso == null) {
-            throw new IllegalStateException("La matricula requiere estudiante y curso.");
+            throw new MatriculaInvalidaException("La matricula requiere estudiante y curso.");
         }
         return new Matricula("", fecha, estudiante, curso,
                 duracionContratada, descuentoAplicado, serviciosIncluidos);
