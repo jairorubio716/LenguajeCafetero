@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="tab-content" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.lenguajecafetero.controller.EstudiantePerfilController">
+
+    <VBox spacing="10" styleClass="card">
+        <Label text="Mi perfil" styleClass="card-title"/>
+        <Label text="Información registrada en la academia" styleClass="card-subtitle"/>
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" maxWidth="180"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="260"/>
+            </columnConstraints>
+            <Label text="Nombre completo" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <Label fx:id="lblNombre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Documento de identidad" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <Label fx:id="lblDocumento" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <Label fx:id="lblTelefono" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Correo electrónico" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <Label fx:id="lblCorreo" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Edad" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <Label fx:id="lblEdad" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label text="Fecha de registro" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <Label fx:id="lblFecha" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        </GridPane>
+    </VBox>
+
+    <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Mi profesor asignado" styleClass="card-title"/>
+        <Label text="Se asigna cuando usted está matriculado en un curso personalizado" styleClass="card-subtitle"/>
+        <ListView fx:id="listaProfesorAsignado" prefHeight="180" VBox.vgrow="ALWAYS" styleClass="list-view"/>
+    </VBox>
+</VBox>

@@ -1,5 +1,6 @@
 package co.edu.uniquindio.lenguajecafetero;
 
+import co.edu.uniquindio.lenguajecafetero.util.PrecargaDatos;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,8 +11,9 @@ import java.io.IOException;
 public class AcademiaApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        PrecargaDatos.cargar();
         FXMLLoader fxmlLoader = new FXMLLoader(
-                AcademiaApplication.class.getResource("view/main-view.fxml"));
+                AcademiaApplication.class.getResource("view/login-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
         scene.getStylesheets().add(
                 AcademiaApplication.class.getResource("css/academia.css").toExternalForm());

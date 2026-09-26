@@ -76,6 +76,7 @@ public class ServiciosController {
     @FXML
     private void onRefrescar() {
         refrescar();
+        AlertHelper.mostrarInfo("Datos actualizados", "Las listas de servicios se recargaron desde la academia.");
     }
 
     private void refrescar() {

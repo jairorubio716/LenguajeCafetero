@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="scrollPane" styleClass="auth-scroll" fitToWidth="true"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.LoginController">
+    <content>
+        <VBox styleClass="login-root">
+            <StackPane styleClass="app-logo">
+                <Label text="LC" styleClass="app-logo-text"/>
+            </StackPane>
+            <Label text="Lenguajecafetero" styleClass="login-title"/>
+            <Label text="Seleccione su rol y su usuario para ingresar" styleClass="login-subtitle"/>
+
+            <VBox spacing="12" styleClass="card" maxWidth="420">
+                <Label text="Rol de acceso" styleClass="card-title"/>
+                <ComboBox fx:id="cmbRol" maxWidth="1.7976931348623157E308"/>
+                <GridPane fx:id="gridPersona" hgap="12" vgap="8">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="90" maxWidth="110"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label fx:id="lblEstudiante" text="Estudiante" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="cmbEstudiante" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label fx:id="lblProfesor" text="Profesor" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="cmbProfesor" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                </GridPane>
+                <HBox styleClass="card-actions">
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Ingresar" onAction="#onEntrar" styleClass="btn-primary"/>
+                </HBox>
+            </VBox>
+            <Button text="¿No tienes cuenta? Regístrate" onAction="#onRegistrarse" styleClass="btn-secondary"/>
+        </VBox>
+    </content>
+</ScrollPane>

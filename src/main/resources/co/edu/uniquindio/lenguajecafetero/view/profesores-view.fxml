@@ -1,36 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+<VBox styleClass="tab-content" xmlns:fx="http://javafx.com/fxml"
       fx:controller="co.edu.uniquindio.lenguajecafetero.controller.ProfesoresController">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+
     <VBox spacing="10" styleClass="card">
-        <Label text="Registrar profesor"/>
-        <GridPane hgap="8" vgap="8">
-            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Label text="Identificacion:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="txtIdentificacion" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Label text="Idioma:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <Label text="Registrar profesor" styleClass="card-title"/>
+        <Label text="Diligencie la información del docente" styleClass="card-subtitle"/>
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" maxWidth="180"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="260"/>
+            </columnConstraints>
+            <Label text="Nombre completo" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtNombre" promptText="Ej. Carla Torres" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Identificación" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtIdentificacion" promptText="Ej. P-001" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Idioma que enseña" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
             <ComboBox fx:id="cmbIdioma" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <Label text="Telefono:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-            <TextField fx:id="txtTelefono" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <Label text="Correo:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-            <TextField fx:id="txtCorreo" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-            <Label text="Tarifa por sesion:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <TextField fx:id="txtTarifa" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="txtTelefono" promptText="Ej. 315 999 0011" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Correo electrónico" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="txtCorreo" promptText="Ej. carla.torres@mail.com" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label text="Dirección" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextField fx:id="txtDireccion" promptText="Ej. Av. Bolivar 15-30, Armenia" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label text="Tarifa por sesión" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <TextField fx:id="txtTarifa" promptText="Ej. 60000" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
         </GridPane>
-        <Button text="Registrar" onAction="#onRegistrar" styleClass="btn-primary"/>
+        <HBox styleClass="card-actions">
+            <Button text="Registrar profesor" onAction="#onRegistrar" styleClass="btn-primary"/>
+        </HBox>
     </VBox>
-    <ListView fx:id="listaProfesores" prefHeight="280" styleClass="list-view"/>
+
+    <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Profesores de la academia" styleClass="card-title"/>
+        <ListView fx:id="listaProfesores" prefHeight="220" VBox.vgrow="ALWAYS" styleClass="list-view"/>
+    </VBox>
 </VBox>

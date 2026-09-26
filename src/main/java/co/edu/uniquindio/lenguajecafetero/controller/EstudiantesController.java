@@ -3,91 +3,73 @@ package co.edu.uniquindio.lenguajecafetero.controller;
 import co.edu.uniquindio.lenguajecafetero.exception.EstudianteNoEncontradoException;
 import co.edu.uniquindio.lenguajecafetero.model.Academia;
 import co.edu.uniquindio.lenguajecafetero.model.Estudiante;
+import co.edu.uniquindio.lenguajecafetero.model.Matricula;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
-import java.time.LocalDate;
-
 public class EstudiantesController {
 
-    @FXML private TextField txtNombre;
-    @FXML private TextField txtDocumento;
-    @FXML private TextField txtTelefono;
-    @FXML private TextField txtCorreo;
-    @FXML private TextField txtEdad;
-    @FXML private DatePicker dpFechaRegistro;
-    @FXML private TextField txtBuscarDocumento;
-    @FXML private Label lblResultadoBusqueda;
+    @FXML private TextField txtBuscar;
     @FXML private ListView<Estudiante> listaEstudiantes;
+    @FXML private Label lblDetalle;
 
     private Academia academia;
 
     @FXML
     public void initialize() {
         academia = Academia.getInstance();
-        dpFechaRegistro.setValue(LocalDate.now());
         refrescarLista();
     }
 
     @FXML
-    private void onRegistrar() {
+    private void onBuscar() {
+        String documento = txtBuscar.getText();
+        if (documento == null || documento.isBlank()) {
+            AlertHelper.mostrarError("Documento requerido", "Ingrese el documento del estudiante a buscar.");
+            return;
+        }
         try {
-            String nombre = txtNombre.getText();
-            String documento = txtDocumento.getText();
-            String telefono = txtTelefono.getText();
-            String correo = txtCorreo.getText();
-            if (nombre == null || nombre.isBlank() || documento == null || documento.isBlank()) {
-                AlertHelper.mostrarError("Dato invalido", "Nombre y documento son obligatorios.");
-                return;
-            }
-            int edad = Integer.parseInt(txtEdad.getText());
-            if (edad <= 0) {
-                AlertHelper.mostrarError("Dato invalido", "La edad debe ser mayor a cero.");
-                return;
-            }
-            LocalDate fecha = dpFechaRegistro.getValue();
-            if (fecha == null) {
-                AlertHelper.mostrarError("Dato invalido", "La fecha de registro es obligatoria.");
-                return;
-            }
-            Estudiante estudiante = new Estudiante(nombre, "", telefono, correo, documento, edad, fecha);
-            academia.registrarEstudiante(estudiante);
-            limpiarFormulario();
-            refrescarLista();
-            AlertHelper.mostrarInfo("Exito", "Estudiante registrado.");
-        } catch (NumberFormatException e) {
-            AlertHelper.mostrarError("Dato invalido", "La edad debe ser un numero entero.");
-        } catch (Exception e) {
-            AlertHelper.mostrarError("Error", e.getMessage());
+            Estudiante estudiante = academia.buscarEstudiante(documento.trim());
+            listaEstudiantes.setItems(FXCollections.observableArrayList(estudiante));
+            lblDetalle.setText(consultarMatriculas(estudiante));
+        } catch (EstudianteNoEncontradoException e) {
+            listaEstudiantes.setItems(FXCollections.observableArrayList());
+            lblDetalle.setText("No se encontro estudiante con documento: " + documento.trim());
         }
     }
 
     @FXML
-    private void onBuscar() {
-        try {
-            Estudiante encontrado = academia.buscarEstudiante(txtBuscarDocumento.getText());
-            lblResultadoBusqueda.setText(encontrado.mostrarInfo() + " | Edad: " + encontrado.getEdad()
-                    + " | Correo: " + encontrado.getCorreo());
-        } catch (EstudianteNoEncontradoException e) {
-            lblResultadoBusqueda.setText("");
-            AlertHelper.mostrarError("No encontrado", e.getMessage());
-        }
+    private void onRefrescar() {
+        txtBuscar.clear();
+        refrescarLista();
+        lblDetalle.setText("");
+        AlertHelper.mostrarInfo("Datos actualizados", "La lista de estudiantes se recargo desde la academia.");
     }
 
     private void refrescarLista() {
         listaEstudiantes.setItems(FXCollections.observableArrayList(academia.getEstudiantes()));
     }
 
-    private void limpiarFormulario() {
-        txtNombre.clear();
-        txtDocumento.clear();
-        txtTelefono.clear();
-        txtCorreo.clear();
-        txtEdad.clear();
-        dpFechaRegistro.setValue(LocalDate.now());
+    private String consultarMatriculas(Estudiante estudiante) {
+        java.util.List<Matricula> matriculas =
+                academia.getMatriculasDeEstudiante(estudiante.getDocumentoIdentidad());
+        if (matriculas.isEmpty()) {
+            return "El estudiante no se ha matriculado en ningun curso.";
+        }
+        StringBuilder detalle = new StringBuilder("Matriculas de " + estudiante.getNombre() + ":");
+        for (Matricula matricula : matriculas) {
+            detalle.append("\n").append(matricula.getNumero())
+                    .append(" - ").append(matricula.getCurso().getNombre())
+                    .append(" (").append(matricula.getCurso().getEstado()).append(")")
+                    .append(" - $").append(matricula.getValorFinal());
+            String beneficios = TextoCurso.beneficiosDe(matricula.getCurso());
+            if (!beneficios.isEmpty()) {
+                detalle.append("\n    Beneficios: ").append(beneficios);
+            }
+        }
+        return detalle.toString();
     }
 }

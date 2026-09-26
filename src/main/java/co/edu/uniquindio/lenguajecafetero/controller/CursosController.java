@@ -1,27 +1,18 @@
 package co.edu.uniquindio.lenguajecafetero.controller;
 
 import co.edu.uniquindio.lenguajecafetero.model.Academia;
-import co.edu.uniquindio.lenguajecafetero.model.Beneficio;
 import co.edu.uniquindio.lenguajecafetero.model.Curso;
+import co.edu.uniquindio.lenguajecafetero.model.EstadoCurso;
 import co.edu.uniquindio.lenguajecafetero.model.Idioma;
 import co.edu.uniquindio.lenguajecafetero.model.NivelIdioma;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.abstractfactory.FabricaBeneficios;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.abstractfactory.FabricaBeneficiosIntensivo;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.abstractfactory.FabricaBeneficiosPersonalizado;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.abstractfactory.FabricaBeneficiosRegular;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.factorymethod.CreadorCursoIntensivo;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.factorymethod.CreadorCursoPersonalizado;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.factorymethod.CreadorCursoRegular;
-import co.edu.uniquindio.lenguajecafetero.model.patrones.factorymethod.CreadorDeCursos;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-
-import java.util.List;
 
 public class CursosController {
 
@@ -40,6 +31,7 @@ public class CursosController {
     @FXML private Label lblObjetivos;
     @FXML private GridPane gridPersonalizado;
     @FXML private ListView<Curso> listaCursos;
+    @FXML private ComboBox<EstadoCurso> cmbEstado;
 
     private Academia academia;
 
@@ -49,9 +41,15 @@ public class CursosController {
         cmbTipo.setItems(FXCollections.observableArrayList("Regular", "Intensivo", "Personalizado"));
         cmbIdioma.setItems(FXCollections.observableArrayList(Idioma.values()));
         cmbNivel.setItems(FXCollections.observableArrayList(NivelIdioma.values()));
+        cmbEstado.setItems(FXCollections.observableArrayList(EstadoCurso.values()));
         cmbTipo.valueProperty().addListener((obs, oldV, newV) -> actualizarCamposPersonalizados());
         cmbTipo.setValue("Regular");
         actualizarCamposPersonalizados();
+        listaCursos.getSelectionModel().selectedItemProperty().addListener((obs, viejo, nuevo) -> {
+            if (nuevo != null) {
+                cmbEstado.setValue(nuevo.getEstado());
+            }
+        });
         refrescarLista();
     }
 
@@ -87,14 +85,13 @@ public class CursosController {
                 return;
             }
 
-            CreadorDeCursos creador;
-            FabricaBeneficios fabrica;
+            Curso curso;
             if ("Regular".equals(tipo)) {
-                creador = new CreadorCursoRegular(codigo, nombre, idioma, descripcion, valorMensual, duracion);
-                fabrica = new FabricaBeneficiosRegular();
+                curso = academia.registrarCursoRegular(codigo, nombre, idioma, descripcion,
+                        valorMensual, duracion);
             } else if ("Intensivo".equals(tipo)) {
-                creador = new CreadorCursoIntensivo(codigo, nombre, idioma, descripcion, valorMensual, duracion);
-                fabrica = new FabricaBeneficiosIntensivo();
+                curso = academia.registrarCursoIntensivo(codigo, nombre, idioma, descripcion,
+                        valorMensual, duracion);
             } else {
                 int sesiones = Integer.parseInt(txtSesiones.getText());
                 NivelIdioma nivel = cmbNivel.getValue();
@@ -104,20 +101,12 @@ public class CursosController {
                             "Para personalizado: sesiones, nivel y objetivos son obligatorios.");
                     return;
                 }
-                creador = new CreadorCursoPersonalizado(codigo, nombre, idioma, descripcion,
+                curso = academia.registrarCursoPersonalizado(codigo, nombre, idioma, descripcion,
                         valorMensual, duracion, sesiones, nivel, objetivos);
-                fabrica = new FabricaBeneficiosPersonalizado();
             }
-
-            Curso curso = creador.crearCurso();
-            List<Beneficio> beneficios = fabrica.crearBeneficios();
-            for (Beneficio beneficio : beneficios) {
-                curso.agregarBeneficio(beneficio);
-            }
-            academia.registrarCurso(curso);
             limpiar();
             refrescarLista();
-            AlertHelper.mostrarInfo("Exito", "Curso registrado.");
+            AlertHelper.mostrarInfo("Exito", "Curso " + curso.getCodigo() + " registrado.");
         } catch (NumberFormatException e) {
             AlertHelper.mostrarError("Dato invalido", "Revise los campos numericos.");
         } catch (Exception e) {
@@ -125,8 +114,32 @@ public class CursosController {
         }
     }
 
+    @FXML
+    private void onCambiarEstado() {
+        Curso curso = listaCursos.getSelectionModel().getSelectedItem();
+        if (curso == null) {
+            AlertHelper.mostrarError("Curso requerido", "Seleccione un curso de la lista.");
+            return;
+        }
+        try {
+            academia.actualizarEstadoCurso(curso.getCodigo(), cmbEstado.getValue());
+            refrescarLista();
+            AlertHelper.mostrarInfo("Exito",
+                    "El curso " + curso.getCodigo() + " paso a estado: " + cmbEstado.getValue());
+        } catch (Exception e) {
+            AlertHelper.mostrarError("Error", e.getMessage());
+        }
+    }
+
     private void refrescarLista() {
         listaCursos.setItems(FXCollections.observableArrayList(academia.getCursos()));
+        listaCursos.setCellFactory(param -> new ListCell<Curso>() {
+            @Override
+            protected void updateItem(Curso curso, boolean empty) {
+                super.updateItem(curso, empty);
+                setText(empty || curso == null ? null : TextoCurso.conBeneficios(curso));
+            }
+        });
     }
 
     private void limpiar() {

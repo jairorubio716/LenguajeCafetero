@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.ProfesorMainController">
+    <top>
+        <HBox styleClass="app-header" alignment="CENTER_LEFT" spacing="12">
+            <StackPane styleClass="app-logo">
+                <Label text="LC" styleClass="app-logo-text"/>
+            </StackPane>
+            <VBox spacing="2">
+                <Label text="Lenguajecafetero · Profesor" styleClass="app-title"/>
+                <Label fx:id="lblBienvenido" styleClass="app-subtitle"/>
+            </VBox>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cerrar sesión" onAction="#onSalir" styleClass="btn-secondary"/>
+        </HBox>
+    </top>
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <TabPane tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="Mi perfil">
+                        <fx:include source="profesor-perfil-view.fxml"/>
+                    </Tab>
+                    <Tab text="Mis asignaciones">
+                        <fx:include source="profesor-asignaciones-view.fxml"/>
+                    </Tab>
+                </TabPane>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

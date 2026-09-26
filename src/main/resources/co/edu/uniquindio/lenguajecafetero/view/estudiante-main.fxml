@@ -12,15 +12,15 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.MainController">
+            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.EstudianteMainController">
     <top>
         <HBox styleClass="app-header" alignment="CENTER_LEFT" spacing="12">
             <StackPane styleClass="app-logo">
                 <Label text="LC" styleClass="app-logo-text"/>
             </StackPane>
             <VBox spacing="2">
-                <Label text="Lenguajecafetero" styleClass="app-title"/>
-                <Label text="Academia de idiomas · Programación II" styleClass="app-subtitle" fx:id="lblSubtitulo"/>
+                <Label text="Lenguajecafetero · Estudiante" styleClass="app-title"/>
+                <Label fx:id="lblBienvenido" styleClass="app-subtitle"/>
             </VBox>
             <Region HBox.hgrow="ALWAYS"/>
             <Button text="Cerrar sesión" onAction="#onSalir" styleClass="btn-secondary"/>
@@ -30,26 +30,14 @@
         <ScrollPane fitToWidth="true">
             <content>
                 <TabPane tabClosingPolicy="UNAVAILABLE">
-                    <Tab text="Estudiantes">
-                        <fx:include source="estudiantes-view.fxml"/>
+                    <Tab text="Mi perfil">
+                        <fx:include source="estudiante-perfil-view.fxml"/>
                     </Tab>
-                    <Tab text="Profesores">
-                        <fx:include source="profesores-view.fxml"/>
+                    <Tab text="Cursos disponibles">
+                        <fx:include source="estudiante-cursos-view.fxml"/>
                     </Tab>
-                    <Tab text="Cursos">
-                        <fx:include source="cursos-view.fxml"/>
-                    </Tab>
-                    <Tab text="Matrículas">
-                        <fx:include source="matriculas-view.fxml"/>
-                    </Tab>
-                    <Tab text="Asignación">
-                        <fx:include source="asignacion-view.fxml"/>
-                    </Tab>
-                    <Tab text="Servicios">
-                        <fx:include source="servicios-view.fxml"/>
-                    </Tab>
-                    <Tab text="Reportes">
-                        <fx:include source="reportes-view.fxml"/>
+                    <Tab text="Mis matrículas">
+                        <fx:include source="estudiante-matriculas-view.fxml"/>
                     </Tab>
                 </TabPane>
             </content>

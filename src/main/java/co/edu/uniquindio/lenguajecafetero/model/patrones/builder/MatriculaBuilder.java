@@ -31,8 +31,8 @@ public class MatriculaBuilder {
     }
 
     public MatriculaBuilder conCurso(Curso curso) {
-        this.curso = curso;
-        this.duracionContratada = curso.getDuracionMeses();
+        this.curso = curso.clonar();
+        this.duracionContratada = this.curso.getDuracionMeses();
         return this;
     }
 

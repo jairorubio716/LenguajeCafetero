@@ -1,46 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10.0" xmlns:fx="http://javafx.com/fxml"
+<VBox styleClass="tab-content" xmlns:fx="http://javafx.com/fxml"
       fx:controller="co.edu.uniquindio.lenguajecafetero.controller.CursosController">
-    <padding>
-        <Insets top="10" right="10" bottom="10" left="10"/>
-    </padding>
+
     <VBox spacing="10" styleClass="card">
-        <Label text="Registrar curso"/>
-        <GridPane hgap="8" vgap="8">
-            <Label text="Tipo:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label text="Registrar curso" styleClass="card-title"/>
+        <Label text="Seleccione el tipo para mostrar los campos específicos" styleClass="card-subtitle"/>
+        <GridPane hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" maxWidth="180"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="260"/>
+            </columnConstraints>
+            <Label text="Tipo de curso" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
             <ComboBox fx:id="cmbTipo" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Label text="Codigo:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-            <TextField fx:id="txtCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-            <Label text="Idioma:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <Label text="Código" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtCodigo" promptText="Ej. C-REG-01" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Nombre" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="txtNombre" promptText="Ej. Inglés Regular" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Idioma" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
             <ComboBox fx:id="cmbIdioma" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-            <Label text="Descripcion:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-            <TextField fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-            <Label text="Valor mensual:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
-            <TextField fx:id="txtValorMensual" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-            <Label text="Duracion (meses):" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
-            <TextField fx:id="txtDuracion" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+            <Label text="Descripción" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="txtDescripcion" promptText="Breve descripción del curso" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <Label text="Valor mensual" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+            <TextField fx:id="txtValorMensual" promptText="Ej. 120000" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+            <Label text="Duración (meses)" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+            <TextField fx:id="txtDuracion" promptText="Ej. 4" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
         </GridPane>
-        <GridPane fx:id="gridPersonalizado" hgap="8" vgap="8">
-            <Label fx:id="lblSesiones" text="Sesiones por mes:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-            <TextField fx:id="txtSesiones" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-            <Label fx:id="lblNivel" text="Nivel referencia:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+        <Separator/>
+
+        <GridPane fx:id="gridPersonalizado" visible="false" managed="false" hgap="12" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints minWidth="150" maxWidth="180"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="260"/>
+            </columnConstraints>
+            <Label fx:id="lblSesiones" text="Sesiones por mes" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <TextField fx:id="txtSesiones" promptText="Ej. 4" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label fx:id="lblNivel" text="Nivel de referencia" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
             <ComboBox fx:id="cmbNivel" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <Label fx:id="lblObjetivos" text="Objetivos:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-            <TextField fx:id="txtObjetivos" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label fx:id="lblObjetivos" text="Objetivos del estudiante" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="txtObjetivos" promptText="Ej. Alcanzar conversación fluida" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
         </GridPane>
-        <Button text="Registrar" onAction="#onRegistrar" styleClass="btn-primary"/>
+
+        <HBox styleClass="card-actions">
+            <Button text="Registrar curso" onAction="#onRegistrar" styleClass="btn-primary"/>
+        </HBox>
     </VBox>
-    <ListView fx:id="listaCursos" prefHeight="250" styleClass="list-view"/>
+
+    <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Cursos registrados" styleClass="card-title"/>
+        <Label text="Seleccione un curso y cambie su estado (los estudiantes solo ven cursos ACTIVO)" styleClass="card-subtitle"/>
+        <ListView fx:id="listaCursos" prefHeight="180" VBox.vgrow="ALWAYS" styleClass="list-view"/>
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Label text="Nuevo estado"/>
+            <ComboBox fx:id="cmbEstado" prefWidth="200"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button text="Cambiar estado" onAction="#onCambiarEstado" styleClass="btn-primary"/>
+        </HBox>
+    </VBox>
 </VBox>

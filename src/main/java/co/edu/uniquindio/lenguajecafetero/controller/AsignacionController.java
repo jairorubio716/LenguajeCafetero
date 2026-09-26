@@ -3,7 +3,6 @@ package co.edu.uniquindio.lenguajecafetero.controller;
 import co.edu.uniquindio.lenguajecafetero.model.Academia;
 import co.edu.uniquindio.lenguajecafetero.model.Asignacion;
 import co.edu.uniquindio.lenguajecafetero.model.Curso;
-import co.edu.uniquindio.lenguajecafetero.model.CursoPersonalizado;
 import co.edu.uniquindio.lenguajecafetero.model.Estudiante;
 import co.edu.uniquindio.lenguajecafetero.model.Profesor;
 import javafx.collections.FXCollections;
@@ -26,12 +25,14 @@ public class AsignacionController {
     @FXML
     public void initialize() {
         academia = Academia.getInstance();
+        cmbCurso.valueProperty().addListener((obs, viejo, nuevo) -> filtrarProfesoresPorIdioma());
         refrescar();
     }
 
     @FXML
     private void onRefrescar() {
         refrescar();
+        AlertHelper.mostrarInfo("Datos actualizados", "Las listas de asignacion se recargaron desde la academia.");
     }
 
     @FXML
@@ -47,15 +48,23 @@ public class AsignacionController {
 
     private void refrescar() {
         cmbEstudiante.setItems(FXCollections.observableArrayList(academia.getEstudiantes()));
-        List<Curso> personalizados = new ArrayList<>();
-        for (Curso curso : academia.getCursos()) {
-            if (curso instanceof CursoPersonalizado) {
-                personalizados.add(curso);
+        cmbCurso.setItems(FXCollections.observableArrayList(academia.getCursosPersonalizados()));
+        filtrarProfesoresPorIdioma();
+        refrescarLista();
+    }
+
+    private void filtrarProfesoresPorIdioma() {
+        if (cmbProfesor == null) {
+            return;
+        }
+        Curso curso = cmbCurso.getValue();
+        List<Profesor> profesores = new ArrayList<>();
+        for (Profesor profesor : academia.getProfesores()) {
+            if (curso == null || profesor.getIdiomaEnsenado().equals(curso.getIdioma())) {
+                profesores.add(profesor);
             }
         }
-        cmbCurso.setItems(FXCollections.observableArrayList(personalizados));
-        cmbProfesor.setItems(FXCollections.observableArrayList(academia.getProfesores()));
-        refrescarLista();
+        cmbProfesor.setItems(FXCollections.observableArrayList(profesores));
     }
 
     private void refrescarLista() {

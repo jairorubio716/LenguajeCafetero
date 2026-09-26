@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox styleClass="tab-content" spacing="12" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="co.edu.uniquindio.lenguajecafetero.controller.ProfesorAsignacionesController">
+
+    <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Mis asignaciones" styleClass="card-title"/>
+        <Label text="Asignaciones donde usted es el profesor titular" styleClass="card-subtitle"/>
+        <ListView fx:id="listaAsignaciones" prefHeight="200" VBox.vgrow="ALWAYS" styleClass="list-view"/>
+    </VBox>
+
+    <VBox spacing="8" styleClass="card" VBox.vgrow="ALWAYS">
+        <Label text="Mis estudiantes" styleClass="card-title"/>
+        <Label text="Estudiantes de sus asignaciones (sin duplicados)" styleClass="card-subtitle"/>
+        <ListView fx:id="listaEstudiantes" prefHeight="160" VBox.vgrow="ALWAYS" styleClass="list-view"/>
+    </VBox>
+</VBox>

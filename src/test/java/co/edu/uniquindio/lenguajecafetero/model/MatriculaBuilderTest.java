@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class MatriculaBuilderTest {
@@ -29,7 +30,9 @@ public class MatriculaBuilderTest {
                 .build();
 
         assertEquals(estudiante, matricula.getEstudiante());
-        assertEquals(curso, matricula.getCurso());
+        assertNotSame(curso, matricula.getCurso());
+        assertEquals(curso.getCodigo(), matricula.getCurso().getCodigo());
+        assertEquals(curso.calcularValor(), matricula.getCurso().calcularValor(), 0.01);
         assertEquals(LocalDate.of(2024, 5, 1), matricula.getFecha());
         assertEquals(2, matricula.getDuracionContratada());
         assertEquals(0.05, matricula.getDescuentoAplicado(), 0.001);

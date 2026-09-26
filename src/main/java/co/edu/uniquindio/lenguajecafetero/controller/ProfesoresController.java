@@ -16,6 +16,7 @@ public class ProfesoresController {
     @FXML private ComboBox<Idioma> cmbIdioma;
     @FXML private TextField txtTelefono;
     @FXML private TextField txtCorreo;
+    @FXML private TextField txtDireccion;
     @FXML private TextField txtTarifa;
     @FXML private ListView<Profesor> listaProfesores;
 
@@ -46,7 +47,8 @@ public class ProfesoresController {
                 AlertHelper.mostrarError("Dato invalido", "La tarifa no puede ser negativa.");
                 return;
             }
-            Profesor profesor = new Profesor(nombre, "", telefono, correo, identificacion, idioma, tarifa);
+            Profesor profesor = new Profesor(nombre, txtDireccion.getText(), telefono, correo,
+                    identificacion, idioma, tarifa);
             academia.registrarProfesor(profesor);
             limpiar();
             refrescarLista();
@@ -68,6 +70,7 @@ public class ProfesoresController {
         cmbIdioma.getSelectionModel().clearSelection();
         txtTelefono.clear();
         txtCorreo.clear();
+        txtDireccion.clear();
         txtTarifa.clear();
     }
 }

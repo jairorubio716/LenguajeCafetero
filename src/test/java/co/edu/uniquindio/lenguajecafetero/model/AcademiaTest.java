@@ -28,13 +28,7 @@ public class AcademiaTest {
     @BeforeEach
     void setUp() {
         academia = Academia.getInstance();
-        academia.getEstudiantes().clear();
-        academia.getProfesores().clear();
-        academia.getCursos().clear();
-        academia.getServicios().clear();
-        academia.getMatriculas().clear();
-        academia.getAsignaciones().clear();
-        academia.getServiciosUtilizados().clear();
+        academia.limpiar();
 
         estudiante = new Estudiante("Ana", "Calle 1", "300", "ana@mail.com",
                 "1001", 20, LocalDate.of(2024, 1, 10));
@@ -53,7 +47,7 @@ public class AcademiaTest {
     }
 
     @Test
-    void registrarEstudianteYBuscar() throws EstudianteNoEncontradoException {
+    void registrarEstudianteYBuscar() throws Exception {
         academia.registrarEstudiante(estudiante);
         Estudiante encontrado = academia.buscarEstudiante("1001");
         assertEquals("Ana", encontrado.getNombre());
@@ -65,7 +59,7 @@ public class AcademiaTest {
     }
 
     @Test
-    void registrarProfesorCursoYServicio() {
+    void registrarProfesorCursoYServicio() throws Exception {
         academia.registrarProfesor(profesor);
         academia.registrarCurso(cursoRegular);
         ServicioAdicional servicio = new ServicioAdicional(TipoServicio.MATERIAL_IMPRESO,
@@ -114,7 +108,8 @@ public class AcademiaTest {
     }
 
     @Test
-    void asignarProfesorACursoPersonalizado() throws AsignacionInvalidaException {
+    void asignarProfesorACursoPersonalizado() throws Exception {
+        academia.crearMatricula(estudiante, cursoPersonalizado, 2, 0, null);
         academia.asignarProfesor(estudiante, cursoPersonalizado, profesor);
         assertEquals(1, academia.getAsignaciones().size());
     }
@@ -123,6 +118,21 @@ public class AcademiaTest {
     void asignarProfesorACursoNoPersonalizado() {
         assertThrows(AsignacionInvalidaException.class,
                 () -> academia.asignarProfesor(estudiante, cursoRegular, profesor));
+    }
+
+    @Test
+    void asignarProfesorAEstudianteNoMatriculado() {
+        assertThrows(AsignacionInvalidaException.class,
+                () -> academia.asignarProfesor(estudiante, cursoPersonalizado, profesor));
+    }
+
+    @Test
+    void asignarProfesorDebeEnsenarElIdiomaDelCurso() throws Exception {
+        academia.crearMatricula(estudiante, cursoPersonalizado, 2, 0, null);
+        Profesor profesoraFrances = new Profesor("Marta", "Calle 3", "303", "marta@mail.com",
+                "P2", Idioma.FRANCES, 60000);
+        assertThrows(AsignacionInvalidaException.class,
+                () -> academia.asignarProfesor(estudiante, cursoPersonalizado, profesoraFrances));
     }
 
     @Test
@@ -161,6 +171,77 @@ public class AcademiaTest {
         double fuera = academia.ingresosPorPeriodo(
                 LocalDate.of(2023, 1, 1), LocalDate.of(2023, 12, 31));
         assertEquals(0, fuera, 0.01);
+    }
+
+    @Test
+    void actualizarEstadoCursoCambiaEstado() throws Exception {
+        Curso curso = academia.registrarCursoRegular("C9", "Aleman Basico", Idioma.INGLES,
+                "Basico", 90000, 4);
+        assertEquals(EstadoCurso.ACTIVO, curso.getEstado());
+        academia.actualizarEstadoCurso("C9", EstadoCurso.SUSPENDIDO);
+        assertEquals(EstadoCurso.SUSPENDIDO, curso.getEstado());
+        assertTrue(academia.getCursosActivos().isEmpty());
+    }
+
+    @Test
+    void cursoNoActivoNoAdmiteMatricula() throws Exception {
+        Curso curso = academia.registrarCursoRegular("C10", "Frances Basico", Idioma.FRANCES,
+                "Basico", 90000, 4);
+        academia.actualizarEstadoCurso("C10", EstadoCurso.FINALIZADO);
+        assertThrows(CursoNoDisponibleException.class,
+                () -> academia.crearMatricula(estudiante, curso, 3, 0, null));
+    }
+
+    @Test
+    void cambiarEstadoCursoInexistente() {
+        assertThrows(DatoInvalidoException.class,
+                () -> academia.actualizarEstadoCurso("ZZZ", EstadoCurso.ACTIVO));
+    }
+
+    @Test
+    void cursosModificablesCambianEntreEstados() throws Exception {
+        Curso curso = academia.registrarCursoIntensivo("C11", "Ingles Intensivo", Idioma.INGLES,
+                "Full", 150000, 2);
+        academia.actualizarEstadoCurso("C11", EstadoCurso.SUSPENDIDO);
+        academia.actualizarEstadoCurso("C11", EstadoCurso.ACTIVO);
+        academia.actualizarEstadoCurso("C11", EstadoCurso.FINALIZADO);
+        assertEquals(EstadoCurso.FINALIZADO, curso.getEstado());
+    }
+
+    @Test
+    void asignarProfesorNoSeRepiteParaMismoEstudianteYCurso() throws Exception {
+        academia.crearMatricula(estudiante, cursoPersonalizado, 2, 0, null);
+        academia.asignarProfesor(estudiante, cursoPersonalizado, profesor);
+        assertThrows(AsignacionInvalidaException.class,
+                () -> academia.asignarProfesor(estudiante, cursoPersonalizado, profesor));
+        assertEquals(1, academia.getAsignaciones().size());
+    }
+
+    @Test
+    void estudianteNoSeMatriculaDosVecesEnElMismoCurso() throws Exception {
+        academia.crearMatricula(estudiante, cursoRegular, 3, 0, null);
+        assertThrows(MatriculaInvalidaException.class,
+                () -> academia.crearMatricula(estudiante, cursoRegular, 3, 0, null));
+        assertEquals(1, academia.getMatriculas().size());
+    }
+
+    @Test
+    void servicioNoSeSolicitaDosVecesEnLaMismaMatricula() throws Exception {
+        Matricula matricula = academia.crearMatricula(estudiante, cursoRegular, 3, 0, null);
+        ServicioAdicional servicio = new ServicioAdicional(TipoServicio.TUTORIA_REFUERZO,
+                "S2", "Tutoria", "Refuerzo", 50000, true);
+        academia.solicitarServicio(matricula, servicio);
+        assertThrows(DatoInvalidoException.class,
+                () -> academia.solicitarServicio(matricula, servicio));
+    }
+
+    @Test
+    void servicioRegistradoDuplicado() throws Exception {
+        ServicioAdicional servicio = new ServicioAdicional(TipoServicio.MATERIAL_IMPRESO,
+                "S1", "Material", "Impreso", 20000, true);
+        academia.registrarServicio(servicio);
+        assertThrows(DatoInvalidoException.class, () -> academia.registrarServicio(servicio));
+        assertEquals(1, academia.getServicios().size());
     }
 
     @Test

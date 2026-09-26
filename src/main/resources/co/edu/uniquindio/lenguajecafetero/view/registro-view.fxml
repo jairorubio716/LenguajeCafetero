@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane fx:id="scrollPane" styleClass="auth-scroll" fitToWidth="true"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.uniquindio.lenguajecafetero.controller.RegistroController">
+    <content>
+        <VBox styleClass="login-root">
+            <StackPane styleClass="app-logo">
+                <Label text="LC" styleClass="app-logo-text"/>
+            </StackPane>
+            <Label text="Crea tu cuenta de estudiante" styleClass="login-title"/>
+            <Label text="Registrate y quedaras dentro de la academia para matricularte" styleClass="login-subtitle"/>
+
+            <VBox spacing="12" styleClass="card" maxWidth="460">
+                <Label text="Datos personales" styleClass="card-title"/>
+                <GridPane hgap="12" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints minWidth="120" maxWidth="160"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <Label text="Nombre completo" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <TextField fx:id="txtNombre" promptText="Ej. Ana María Gómez" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    <Label text="Documento de identidad" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="txtDocumento" promptText="Ej. 1005400123" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                    <Label text="Teléfono" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="txtTelefono" promptText="Ej. 300 111 2233" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Label text="Correo electrónico" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="txtCorreo" promptText="Ej. ana.gomez@mail.com" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                    <Label text="Edad" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <TextField fx:id="txtEdad" promptText="Ej. 22" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+                    <Label text="Dirección" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <TextField fx:id="txtDireccion" promptText="Ej. Cra 8 Nro 10-45, Armenia" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+                </GridPane>
+                <HBox spacing="8" styleClass="card-actions">
+                    <Button text="Ya tengo cuenta" onAction="#onVolver" styleClass="btn-secondary"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Button text="Crear cuenta" onAction="#onCrearCuenta" styleClass="btn-primary"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </content>
+</ScrollPane>
