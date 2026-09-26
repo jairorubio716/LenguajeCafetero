@@ -18,6 +18,11 @@ public class ServicioAdicional {
         this.disponible = disponible;
     }
 
+    @Override
+    public String toString() {
+        return codigo + " - " + nombre + " - $" + precio + " - disponible: " + disponible;
+    }
+
     public TipoServicio getTipo() {
         return tipo;
     }

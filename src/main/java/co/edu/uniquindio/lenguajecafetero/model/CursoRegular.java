@@ -19,4 +19,9 @@ public class CursoRegular extends Curso {
     public Curso clonar() {
         return new CursoRegular(this);
     }
+
+    @Override
+    public String toString() {
+        return getCodigo() + " - " + getNombre() + " - Regular - " + getEstado();
+    }
 }

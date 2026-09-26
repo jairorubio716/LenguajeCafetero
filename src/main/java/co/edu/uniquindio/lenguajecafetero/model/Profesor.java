@@ -18,6 +18,11 @@ public class Profesor extends Persona {
         return "Profesor: " + getNombre() + " (idioma: " + idiomaEnsenado + ")";
     }
 
+    @Override
+    public String toString() {
+        return getNombre() + " - " + identificacion + " - " + idiomaEnsenado;
+    }
+
     public String getIdentificacion() {
         return identificacion;
     }

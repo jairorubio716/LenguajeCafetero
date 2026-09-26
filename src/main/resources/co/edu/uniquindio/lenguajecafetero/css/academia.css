@@ -1,0 +1,35 @@
+.root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #eef2f6;
+}
+
+.btn-primary {
+    -fx-background-color: #2f6fed;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.btn-danger {
+    -fx-background-color: #d64545;
+    -fx-text-fill: white;
+    -fx-background-radius: 8;
+    -fx-padding: 8 16 8 16;
+    -fx-cursor: hand;
+}
+
+.card {
+    -fx-background-color: white;
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 12;
+}
+
+.list-view {
+    -fx-border-color: #d0d7de;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+}

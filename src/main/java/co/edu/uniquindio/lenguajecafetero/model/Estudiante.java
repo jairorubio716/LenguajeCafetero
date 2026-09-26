@@ -20,6 +20,11 @@ public class Estudiante extends Persona {
         return "Estudiante: " + getNombre() + " (CC " + documentoIdentidad + ")";
     }
 
+    @Override
+    public String toString() {
+        return getNombre() + " - " + documentoIdentidad + " - edad " + edad;
+    }
+
     public String getDocumentoIdentidad() {
         return documentoIdentidad;
     }

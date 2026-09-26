@@ -5,8 +5,7 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -17,37 +16,33 @@
     <padding>
         <Insets top="10" right="10" bottom="10" left="10"/>
     </padding>
-    <Label text="Registrar servicio adicional"/>
-    <GridPane hgap="8" vgap="8">
-        <Label text="Tipo:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <ComboBox fx:id="cmbTipo" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <Label text="Codigo:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="txtCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Descripcion:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-        <TextField fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-        <Label text="Precio:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
-        <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
-        <CheckBox fx:id="chkDisponible" text="Disponible" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
-    </GridPane>
-    <Button text="Registrar" onAction="#onRegistrar"/>
-    <TableView fx:id="tablaServicios" prefHeight="180">
-        <columns>
-            <TableColumn fx:id="colCodigo" text="Codigo" prefWidth="90"/>
-            <TableColumn fx:id="colNombre" text="Nombre" prefWidth="160"/>
-            <TableColumn fx:id="colDescripcion" text="Descripcion" prefWidth="200"/>
-            <TableColumn fx:id="colPrecio" text="Precio" prefWidth="90"/>
-            <TableColumn fx:id="colDisponible" text="Disponible" prefWidth="90"/>
-        </columns>
-    </TableView>
-    <Label text="Solicitar servicio sobre matricula"/>
-    <HBox spacing="8">
-        <Button text="Refrescar" onAction="#onRefrescar"/>
-        <Label text="Matricula:"/>
-        <ComboBox fx:id="cmbMatricula" prefWidth="200"/>
-        <Label text="Servicio:"/>
-        <ComboBox fx:id="cmbServicioSolicitar" prefWidth="200"/>
-        <Button text="Solicitar" onAction="#onSolicitar"/>
-    </HBox>
+    <VBox spacing="10" styleClass="card">
+        <Label text="Registrar servicio adicional"/>
+        <GridPane hgap="8" vgap="8">
+            <Label text="Tipo:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+            <ComboBox fx:id="cmbTipo" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+            <Label text="Codigo:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+            <TextField fx:id="txtCodigo" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+            <TextField fx:id="txtNombre" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <Label text="Descripcion:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+            <TextField fx:id="txtDescripcion" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <Label text="Precio:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+            <TextField fx:id="txtPrecio" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <CheckBox fx:id="chkDisponible" text="Disponible" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+        </GridPane>
+        <Button text="Registrar" onAction="#onRegistrar" styleClass="btn-primary"/>
+    </VBox>
+    <ListView fx:id="listaServicios" prefHeight="180" styleClass="list-view"/>
+    <VBox spacing="8" styleClass="card">
+        <Label text="Solicitar servicio sobre matricula"/>
+        <HBox spacing="8">
+            <Button text="Refrescar" onAction="#onRefrescar" styleClass="btn-primary"/>
+            <Label text="Matricula:"/>
+            <ComboBox fx:id="cmbMatricula" prefWidth="200"/>
+            <Label text="Servicio:"/>
+            <ComboBox fx:id="cmbServicioSolicitar" prefWidth="200"/>
+            <Button text="Solicitar" onAction="#onSolicitar" styleClass="btn-primary"/>
+        </HBox>
+    </VBox>
 </VBox>

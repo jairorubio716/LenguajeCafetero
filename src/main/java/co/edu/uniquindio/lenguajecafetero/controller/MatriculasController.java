@@ -5,16 +5,12 @@ import co.edu.uniquindio.lenguajecafetero.model.Curso;
 import co.edu.uniquindio.lenguajecafetero.model.Estudiante;
 import co.edu.uniquindio.lenguajecafetero.model.Matricula;
 import co.edu.uniquindio.lenguajecafetero.model.ServicioAdicional;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
@@ -27,12 +23,7 @@ public class MatriculasController {
     @FXML private TextField txtDuracion;
     @FXML private TextField txtDescuento;
     @FXML private VBox boxServicios;
-    @FXML private TableView<Matricula> tablaMatriculas;
-    @FXML private TableColumn<Matricula, String> colNumero;
-    @FXML private TableColumn<Matricula, String> colEstudiante;
-    @FXML private TableColumn<Matricula, String> colCurso;
-    @FXML private TableColumn<Matricula, Integer> colDuracion;
-    @FXML private TableColumn<Matricula, Double> colValorFinal;
+    @FXML private ListView<Matricula> listaMatriculas;
 
     private Academia academia;
     private final List<CheckBox> checksServicios = new ArrayList<>();
@@ -40,47 +31,14 @@ public class MatriculasController {
     @FXML
     public void initialize() {
         academia = Academia.getInstance();
-        cmbEstudiante.setCellFactory(lv -> celdaEstudiante());
-        cmbEstudiante.setButtonCell(celdaEstudiante());
-        cmbCurso.setCellFactory(lv -> celdaCurso());
-        cmbCurso.setButtonCell(celdaCurso());
-        colNumero.setCellValueFactory(new PropertyValueFactory<>("numero"));
-        colEstudiante.setCellValueFactory(cd ->
-                new SimpleStringProperty(
-                        cd.getValue().getEstudiante() != null ? cd.getValue().getEstudiante().getNombre() : ""));
-        colCurso.setCellValueFactory(cd ->
-                new SimpleStringProperty(
-                        cd.getValue().getCurso() != null ? cd.getValue().getCurso().getNombre() : ""));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionContratada"));
-        colValorFinal.setCellValueFactory(new PropertyValueFactory<>("valorFinal"));
         refrescarCombos();
-        refrescarTabla();
-    }
-
-    private ListCell<Estudiante> celdaEstudiante() {
-        return new ListCell<>() {
-            @Override
-            protected void updateItem(Estudiante item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getNombre() + " (" + item.getDocumentoIdentidad() + ")");
-            }
-        };
-    }
-
-    private ListCell<Curso> celdaCurso() {
-        return new ListCell<>() {
-            @Override
-            protected void updateItem(Curso item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getCodigo() + " - " + item.getNombre());
-            }
-        };
+        refrescarLista();
     }
 
     @FXML
     private void onRefrescar() {
         refrescarCombos();
-        refrescarTabla();
+        refrescarLista();
     }
 
     @FXML
@@ -97,7 +55,7 @@ public class MatriculasController {
                 }
             }
             Matricula matricula = academia.crearMatricula(estudiante, curso, duracion, descuento, incluidos);
-            refrescarTabla();
+            refrescarLista();
             AlertHelper.mostrarInfo("Exito",
                     "Matricula " + matricula.getNumero() + " creada. Valor: " + matricula.getValorFinal());
         } catch (NumberFormatException e) {
@@ -120,7 +78,7 @@ public class MatriculasController {
         }
     }
 
-    private void refrescarTabla() {
-        tablaMatriculas.setItems(FXCollections.observableArrayList(academia.getMatriculas()));
+    private void refrescarLista() {
+        listaMatriculas.setItems(FXCollections.observableArrayList(academia.getMatriculas()));
     }
 }

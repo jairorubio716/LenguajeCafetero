@@ -7,10 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.time.LocalDate;
 
@@ -24,27 +22,15 @@ public class EstudiantesController {
     @FXML private DatePicker dpFechaRegistro;
     @FXML private TextField txtBuscarDocumento;
     @FXML private Label lblResultadoBusqueda;
-    @FXML private TableView<Estudiante> tablaEstudiantes;
-    @FXML private TableColumn<Estudiante, String> colNombre;
-    @FXML private TableColumn<Estudiante, String> colDocumento;
-    @FXML private TableColumn<Estudiante, String> colTelefono;
-    @FXML private TableColumn<Estudiante, String> colCorreo;
-    @FXML private TableColumn<Estudiante, Integer> colEdad;
-    @FXML private TableColumn<Estudiante, LocalDate> colFecha;
+    @FXML private ListView<Estudiante> listaEstudiantes;
 
     private Academia academia;
 
     @FXML
     public void initialize() {
         academia = Academia.getInstance();
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colDocumento.setCellValueFactory(new PropertyValueFactory<>("documentoIdentidad"));
-        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-        colCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
-        colEdad.setCellValueFactory(new PropertyValueFactory<>("edad"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaRegistro"));
         dpFechaRegistro.setValue(LocalDate.now());
-        refrescarTabla();
+        refrescarLista();
     }
 
     @FXML
@@ -71,7 +57,7 @@ public class EstudiantesController {
             Estudiante estudiante = new Estudiante(nombre, "", telefono, correo, documento, edad, fecha);
             academia.registrarEstudiante(estudiante);
             limpiarFormulario();
-            refrescarTabla();
+            refrescarLista();
             AlertHelper.mostrarInfo("Exito", "Estudiante registrado.");
         } catch (NumberFormatException e) {
             AlertHelper.mostrarError("Dato invalido", "La edad debe ser un numero entero.");
@@ -92,8 +78,8 @@ public class EstudiantesController {
         }
     }
 
-    private void refrescarTabla() {
-        tablaEstudiantes.setItems(FXCollections.observableArrayList(academia.getEstudiantes()));
+    private void refrescarLista() {
+        listaEstudiantes.setItems(FXCollections.observableArrayList(academia.getEstudiantes()));
     }
 
     private void limpiarFormulario() {

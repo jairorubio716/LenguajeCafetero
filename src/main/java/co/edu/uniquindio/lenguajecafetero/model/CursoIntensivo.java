@@ -21,4 +21,9 @@ public class CursoIntensivo extends Curso {
     public Curso clonar() {
         return new CursoIntensivo(this);
     }
+
+    @Override
+    public String toString() {
+        return getCodigo() + " - " + getNombre() + " - Intensivo - " + getEstado();
+    }
 }

@@ -8,11 +8,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ServiciosController {
 
@@ -22,12 +19,7 @@ public class ServiciosController {
     @FXML private TextField txtDescripcion;
     @FXML private TextField txtPrecio;
     @FXML private CheckBox chkDisponible;
-    @FXML private TableView<ServicioAdicional> tablaServicios;
-    @FXML private TableColumn<ServicioAdicional, String> colCodigo;
-    @FXML private TableColumn<ServicioAdicional, String> colNombre;
-    @FXML private TableColumn<ServicioAdicional, String> colDescripcion;
-    @FXML private TableColumn<ServicioAdicional, Double> colPrecio;
-    @FXML private TableColumn<ServicioAdicional, Boolean> colDisponible;
+    @FXML private ListView<ServicioAdicional> listaServicios;
     @FXML private ComboBox<Matricula> cmbMatricula;
     @FXML private ComboBox<ServicioAdicional> cmbServicioSolicitar;
 
@@ -37,41 +29,8 @@ public class ServiciosController {
     public void initialize() {
         academia = Academia.getInstance();
         cmbTipo.setItems(FXCollections.observableArrayList(TipoServicio.values()));
-        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        colDisponible.setCellValueFactory(new PropertyValueFactory<>("disponible"));
-        cmbMatricula.setCellFactory(lv -> celdaMatricula());
-        cmbMatricula.setButtonCell(celdaMatricula());
-        cmbServicioSolicitar.setCellFactory(lv -> celdaServicio());
-        cmbServicioSolicitar.setButtonCell(celdaServicio());
         chkDisponible.setSelected(true);
         refrescar();
-    }
-
-    private ListCell<Matricula> celdaMatricula() {
-        return new ListCell<>() {
-            @Override
-            protected void updateItem(Matricula item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.getNumero() + " - " + item.getEstudiante().getNombre());
-                }
-            }
-        };
-    }
-
-    private ListCell<ServicioAdicional> celdaServicio() {
-        return new ListCell<>() {
-            @Override
-            protected void updateItem(ServicioAdicional item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty || item == null ? null : item.getCodigo() + " - " + item.getNombre());
-            }
-        };
     }
 
     @FXML
@@ -120,7 +79,7 @@ public class ServiciosController {
     }
 
     private void refrescar() {
-        tablaServicios.setItems(FXCollections.observableArrayList(academia.getServicios()));
+        listaServicios.setItems(FXCollections.observableArrayList(academia.getServicios()));
         cmbMatricula.setItems(FXCollections.observableArrayList(academia.getMatriculas()));
         cmbServicioSolicitar.setItems(FXCollections.observableArrayList(academia.getServicios()));
     }

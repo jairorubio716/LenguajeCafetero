@@ -3,7 +3,6 @@ package co.edu.uniquindio.lenguajecafetero.controller;
 import co.edu.uniquindio.lenguajecafetero.model.Academia;
 import co.edu.uniquindio.lenguajecafetero.model.Beneficio;
 import co.edu.uniquindio.lenguajecafetero.model.Curso;
-import co.edu.uniquindio.lenguajecafetero.model.EstadoCurso;
 import co.edu.uniquindio.lenguajecafetero.model.Idioma;
 import co.edu.uniquindio.lenguajecafetero.model.NivelIdioma;
 import co.edu.uniquindio.lenguajecafetero.model.patrones.abstractfactory.FabricaBeneficios;
@@ -18,10 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
@@ -42,13 +39,7 @@ public class CursosController {
     @FXML private Label lblNivel;
     @FXML private Label lblObjetivos;
     @FXML private GridPane gridPersonalizado;
-    @FXML private TableView<Curso> tablaCursos;
-    @FXML private TableColumn<Curso, String> colCodigo;
-    @FXML private TableColumn<Curso, String> colNombre;
-    @FXML private TableColumn<Curso, Idioma> colIdioma;
-    @FXML private TableColumn<Curso, Double> colValor;
-    @FXML private TableColumn<Curso, Integer> colDuracion;
-    @FXML private TableColumn<Curso, EstadoCurso> colEstado;
+    @FXML private ListView<Curso> listaCursos;
 
     private Academia academia;
 
@@ -59,15 +50,9 @@ public class CursosController {
         cmbIdioma.setItems(FXCollections.observableArrayList(Idioma.values()));
         cmbNivel.setItems(FXCollections.observableArrayList(NivelIdioma.values()));
         cmbTipo.valueProperty().addListener((obs, oldV, newV) -> actualizarCamposPersonalizados());
-        colCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colIdioma.setCellValueFactory(new PropertyValueFactory<>("idioma"));
-        colValor.setCellValueFactory(new PropertyValueFactory<>("valorMensual"));
-        colDuracion.setCellValueFactory(new PropertyValueFactory<>("duracionMeses"));
-        colEstado.setCellValueFactory(new PropertyValueFactory<>("estado"));
         cmbTipo.setValue("Regular");
         actualizarCamposPersonalizados();
-        refrescarTabla();
+        refrescarLista();
     }
 
     private void actualizarCamposPersonalizados() {
@@ -131,7 +116,7 @@ public class CursosController {
             }
             academia.registrarCurso(curso);
             limpiar();
-            refrescarTabla();
+            refrescarLista();
             AlertHelper.mostrarInfo("Exito", "Curso registrado.");
         } catch (NumberFormatException e) {
             AlertHelper.mostrarError("Dato invalido", "Revise los campos numericos.");
@@ -140,8 +125,8 @@ public class CursosController {
         }
     }
 
-    private void refrescarTabla() {
-        tablaCursos.setItems(FXCollections.observableArrayList(academia.getCursos()));
+    private void refrescarLista() {
+        listaCursos.setItems(FXCollections.observableArrayList(academia.getCursos()));
     }
 
     private void limpiar() {

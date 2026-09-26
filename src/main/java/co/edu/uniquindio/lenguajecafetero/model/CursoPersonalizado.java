@@ -34,6 +34,11 @@ public class CursoPersonalizado extends Curso {
         return new CursoPersonalizado(this);
     }
 
+    @Override
+    public String toString() {
+        return getCodigo() + " - " + getNombre() + " - Personalizado - " + nivelReferencia + " - " + getEstado();
+    }
+
     public int getSesionesPorMes() {
         return sesionesPorMes;
     }

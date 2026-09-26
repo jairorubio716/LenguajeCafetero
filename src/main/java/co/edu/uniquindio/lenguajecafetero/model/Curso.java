@@ -38,6 +38,11 @@ public abstract class Curso implements CursoPrototipo {
         beneficios.add(beneficio);
     }
 
+    @Override
+    public String toString() {
+        return codigo + " - " + nombre + " - " + idioma + " - " + estado;
+    }
+
     public String getCodigo() {
         return codigo;
     }

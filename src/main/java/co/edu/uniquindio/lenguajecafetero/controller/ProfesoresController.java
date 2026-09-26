@@ -6,10 +6,8 @@ import co.edu.uniquindio.lenguajecafetero.model.Profesor;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ProfesoresController {
 
@@ -19,13 +17,7 @@ public class ProfesoresController {
     @FXML private TextField txtTelefono;
     @FXML private TextField txtCorreo;
     @FXML private TextField txtTarifa;
-    @FXML private TableView<Profesor> tablaProfesores;
-    @FXML private TableColumn<Profesor, String> colNombre;
-    @FXML private TableColumn<Profesor, String> colIdentificacion;
-    @FXML private TableColumn<Profesor, Idioma> colIdioma;
-    @FXML private TableColumn<Profesor, String> colTelefono;
-    @FXML private TableColumn<Profesor, String> colCorreo;
-    @FXML private TableColumn<Profesor, Double> colTarifa;
+    @FXML private ListView<Profesor> listaProfesores;
 
     private Academia academia;
 
@@ -33,13 +25,7 @@ public class ProfesoresController {
     public void initialize() {
         academia = Academia.getInstance();
         cmbIdioma.setItems(FXCollections.observableArrayList(Idioma.values()));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colIdentificacion.setCellValueFactory(new PropertyValueFactory<>("identificacion"));
-        colIdioma.setCellValueFactory(new PropertyValueFactory<>("idiomaEnsenado"));
-        colTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-        colCorreo.setCellValueFactory(new PropertyValueFactory<>("correo"));
-        colTarifa.setCellValueFactory(new PropertyValueFactory<>("tarifaPorSesion"));
-        refrescarTabla();
+        refrescarLista();
     }
 
     @FXML
@@ -63,7 +49,7 @@ public class ProfesoresController {
             Profesor profesor = new Profesor(nombre, "", telefono, correo, identificacion, idioma, tarifa);
             academia.registrarProfesor(profesor);
             limpiar();
-            refrescarTabla();
+            refrescarLista();
             AlertHelper.mostrarInfo("Exito", "Profesor registrado.");
         } catch (NumberFormatException e) {
             AlertHelper.mostrarError("Dato invalido", "La tarifa debe ser un numero.");
@@ -72,8 +58,8 @@ public class ProfesoresController {
         }
     }
 
-    private void refrescarTabla() {
-        tablaProfesores.setItems(FXCollections.observableArrayList(academia.getProfesores()));
+    private void refrescarLista() {
+        listaProfesores.setItems(FXCollections.observableArrayList(academia.getProfesores()));
     }
 
     private void limpiar() {

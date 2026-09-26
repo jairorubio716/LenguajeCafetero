@@ -45,6 +45,11 @@ public class Matricula {
         calcularValorFinal();
     }
 
+    @Override
+    public String toString() {
+        return numero + " - " + estudiante.getNombre() + " - " + curso.getNombre() + " - $" + valorFinal;
+    }
+
     public String getNumero() {
         return numero;
     }

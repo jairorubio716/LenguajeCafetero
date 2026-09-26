@@ -15,6 +15,11 @@ public class Asignacion {
         this.profesor = profesor;
     }
 
+    @Override
+    public String toString() {
+        return fechaAsignacion + " - " + estudiante.getNombre() + " - " + curso.getNombre() + " - " + profesor.getNombre();
+    }
+
     public LocalDate getFechaAsignacion() {
         return fechaAsignacion;
     }

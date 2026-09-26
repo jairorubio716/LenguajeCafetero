@@ -13,6 +13,8 @@ public class AcademiaApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 AcademiaApplication.class.getResource("view/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        scene.getStylesheets().add(
+                AcademiaApplication.class.getResource("css/academia.css").toExternalForm());
         stage.setTitle("LenguajeCafetero - Academia de Idiomas");
         stage.setScene(scene);
         stage.show();
